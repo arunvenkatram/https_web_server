@@ -44,5 +44,17 @@ pipeline {
       }
     }
 
+    stage('Manual approval for prod') {
+      steps {
+        input 'Deploy to Prod?'
+      }
+    }
+
+    stage('Prod Deployment') {
+      steps {
+        sh 'echo \'deploying to prod\''
+      }
+    }
+
   }
 }
