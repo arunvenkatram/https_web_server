@@ -52,7 +52,7 @@ pipeline {
                     steps {
                         echo "Triggering DSS"
                         build ( 
-                            job: "optimisation-depotsmoothing-service/master",
+                            job: "../optimisation-depotsmoothing-service/master",
                             propagate: true,
                             wait: true )
                     }
@@ -61,7 +61,7 @@ pipeline {
                     steps {
                         echo "Triggering SSS"
                         build (
-                            job: "optimisation-stocksharing-service/master",
+                            job: "../optimisation-stocksharing-service/master",
                             propagate: true,
                             wait: true )
                     }
