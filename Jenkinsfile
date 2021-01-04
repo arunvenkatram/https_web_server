@@ -1,27 +1,48 @@
 pipeline {
-    parameters {
-        choice(name: 'ENVIRONMENT', choices: ['dev','qa','stage'], description: 'Select Environment to delete /app/tmp/kafka-streams/')
-        choice(name: 'APP', choices: ['depot-smoothing','input-acl','stock-sharing'], description: 'Select Environment to delete /app/tmp/kafka-streams/')
-    }
-    options {
-        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '30'))
-        disableConcurrentBuilds()
+  agent any
+  stages {
+    stage('build1') {
+      parallel {
+        stage('build1') {
+          steps {
+            sh 'echo \'this is build 1 stage\''
+            sh 'echo \'this is build 1.1 stage\''
+          }
+        }
+
+        stage('build2') {
+          steps {
+            sh 'this is build 2 stage'
+            sh 'echo \'this is build 2.2 stage\''
+          }
+        }
+
+      }
     }
 
-    agent {
-        node {
-            label 'StoreOrderOptimiser'
+    stage('test') {
+      parallel {
+        stage('test') {
+          steps {
+            sh 'echo \'this is test 1 stage\''
+            sh 'echo \'this is test 1.1 stage\''
+          }
         }
+
+        stage('test2') {
+          steps {
+            sh 'echo \'this is test 2 stage\''
+          }
+        }
+
+      }
     }
 
-    stages {
-         stage('Delete State Store Directories') {
-            steps {
-                script {
-                    echo "Getting server list"
-                    sh '/appl/scripts/delete_state_store.sh -a $APP -e $ENVIRONMENT'
-                }
-            }
-        }
+    stage('deployment') {
+      steps {
+        sh 'echo \'this is deployment stage\''
+      }
     }
+
+  }
 }
