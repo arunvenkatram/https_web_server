@@ -12,7 +12,7 @@ pipeline {
 
         stage('build2') {
           steps {
-            sh 'this is build 2 stage'
+            echo 'this is build 2 stage'
             sh 'echo \'this is build 2.2 stage\''
           }
         }
@@ -43,6 +43,31 @@ pipeline {
         sh 'echo \'this is deployment stage\''
       }
     }
+        stage("Trigger depotsmoothing and stocksharing build") {
+            // when {
+            //     branch 'master'
+            // }
+            parallel {
+                stage("Trigger DSS") {
+                    steps {
+                        echo "Triggering DSS"
+                        build ( 
+                            job: "optimisation-depotsmoothing-service/master",
+                            propagate:true,
+                            wait:true )
+                    }
+                }
+                stage("Trigger SSS") {
+                    steps {
+                        echo "Triggering SSS"
+                        build (
+                            job: "optimisation-stocksharing-service/master",
+                            propagate: true,
+                            wait: true )
+                    }
+                }
+            }
+        }
 
   }
 }
