@@ -53,8 +53,8 @@ pipeline {
                         echo "Triggering DSS"
                         build ( 
                             job: "optimisation-depotsmoothing-service/master",
-                            propagate:true,
-                            wait:true )
+                            propagate: true,
+                            wait: true )
                     }
                 }
                 stage("Trigger SSS") {
