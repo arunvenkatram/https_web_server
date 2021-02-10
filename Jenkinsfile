@@ -51,19 +51,11 @@ pipeline {
                 stage("Trigger DSS") {
                     steps {
                         echo "Triggering DSS"
-                        build ( 
-                            job: "../optimisation-depotsmoothing-service/master",
-                            propagate: true,
-                            wait: true )
                     }
                 }
                 stage("Trigger SSS") {
                     steps {
                         echo "Triggering SSS"
-                        build (
-                            job: "../optimisation-stocksharing-service/master",
-                            propagate: true,
-                            wait: true )
                     }
                 }
             }
